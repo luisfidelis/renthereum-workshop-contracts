@@ -10,7 +10,7 @@ contract RentLib {
 
   mapping(uint256 => Order) public itemsToRent;
   uint256 public itemsCount;
-  bool public initialized;
+  address public owner;
   
   struct Order {
     string id;
@@ -52,9 +52,10 @@ contract RentLib {
 
   function init()
     onlyUninitialized
+    public
     returns(uint256)
   {
-    initialized = true;
+    owner = msg.sender;
     itemsCount = 0;
     return itemsCount;
   }
@@ -65,7 +66,7 @@ contract RentLib {
   }
 
   modifier onlyUninitialized() {
-      require(!initialized);
+      require(owner == address(0));
       _;
   }
 
