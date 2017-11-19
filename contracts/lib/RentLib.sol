@@ -65,7 +65,8 @@ contract RentLib {
   }
 
   modifier onlyUninitialized() {
-      require()
+      require(!initialized);
+      _;
   }
 
   modifier isValidValue(uint _rentPeriod, uint256 _itemValue) {
