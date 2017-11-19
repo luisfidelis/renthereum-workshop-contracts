@@ -10,6 +10,7 @@ contract RentLib {
 
   mapping(uint256 => Order) public itemsToRent;
   uint256 public itemsCount;
+  bool public initialized;
   
   struct Order {
     string id;
@@ -49,13 +50,22 @@ contract RentLib {
     uint256 _value 
   );
 
-  function RentLib() {
+  function init()
+    onlyUninitialized
+    returns(uint256)
+  {
+    initialized = true;
     itemsCount = 0;
+    return itemsCount;
   }
 
   modifier isValidItem(uint256 _index) {
     require(_index >= 0 && _index < itemsCount && itemsToRent[_index].status == Status.AVAILABLE);
     _;
+  }
+
+  modifier onlyUninitialized() {
+      require()
   }
 
   modifier isValidValue(uint _rentPeriod, uint256 _itemValue) {
