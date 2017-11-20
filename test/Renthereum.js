@@ -5,6 +5,7 @@ const expect = require('chai').expect;
 
 // --- Artifacts
 const Renthereum = artifacts.require("./Renthereum.sol");
+const Lib = artifacts.require("./lib/RentLib.sol");
 //
 // --- Test constants 
 const itemsToOrder = [{
@@ -31,7 +32,8 @@ let itemsToRent = [];
 
 // --- Useful function
 const assertNewRentOrder = async (contract, item, account) => {
-    const {logs} = await contract.createOrder(
+    const {logs} = //await contract.some();
+    await contract.createOrder(
         item.id,
         item.name,
         item.description,
@@ -40,7 +42,7 @@ const assertNewRentOrder = async (contract, item, account) => {
         item.maxPeriod,
         { from: account }
     );
-
+    console.log(logs);
     const event = logs.find(e => e.event === 'Ordered')
     should.exist(event)
 
@@ -60,7 +62,7 @@ contract('Renthereum', accounts => {
     before( async () => {
         owner = accounts[0];
         customer = accounts[1];
-        renthereum = await Renthereum.new();
+        renthereum = await Renthereum.deployed();
     })
     
     it("should create a rent order", async () => {

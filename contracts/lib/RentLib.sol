@@ -50,6 +50,10 @@ contract RentLib {
     uint256 _value 
   );
 
+  event Some(
+      address _address
+  );
+
   function init()
     onlyUninitialized
     public
@@ -138,6 +142,14 @@ contract RentLib {
     itemsToRent[_index] = order;
     Canceled(_index, order.id, order.owner, order.name, order.dailyValue);  
     return true;
+  }
+
+  function some()
+    public
+    returns(bool)
+  {
+      Some(address(0));
+      return true;
   }
 
 }
