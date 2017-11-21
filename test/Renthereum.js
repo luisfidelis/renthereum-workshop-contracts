@@ -42,7 +42,6 @@ const assertNewRentOrder = async (contract, item, account) => {
         item.maxPeriod,
         { from: account }
     );
-    console.log(logs);
     const event = logs.find(e => e.event === 'Ordered')
     should.exist(event)
 

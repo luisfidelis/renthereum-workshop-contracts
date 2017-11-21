@@ -1,6 +1,8 @@
 pragma solidity ^0.4.14;
 
-contract Renthereum {
+import './events/RentEvents.sol';
+
+contract Renthereum is RentEvents {
 
   address public RentLib;
 
@@ -28,23 +30,24 @@ contract Renthereum {
     public
     returns (bool)
   {
-    require(RentLib.delegatecall(
-      bytes4(keccak256("createOrder(string,string,string,uint256,uint256,uint256")),
-      _id,
-      _name,
-      _description,
-      _dailyValue,
-      _minPeriod,
-      _maxPeriod
-    ));
+    require(RentLib.delegatecall(msg.data));
     return true;
   }
 
-  function some ()
+   // cancel an available order
+  function cancelOrder(uint256 _index)
     public
-    returns (bool)
+    returns(bool)
   {
-    require(RentLib.delegatecall(bytes4(keccak256("some()"))));
+    require(RentLib.delegatecall(msg.data));
+    return true;
+  }
+
+  function rent(uint256 _index, uint _period) payable
+    public
+    returns(bool)
+  {
+    require(RentLib.delegatecall(msg.data));
     return true;
   }
 

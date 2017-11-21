@@ -1,17 +1,20 @@
 pragma solidity ^0.4.14;
 
-contract RentLib {
+import '../events/RentEvents.sol';
+
+contract RentLib is RentEvents {
 
   enum Status {
     AVAILABLE,
     CANCELED,
     RENTED
-  }
+  } 
+   
 
   mapping(uint256 => Order) public itemsToRent;
   uint256 public itemsCount;
   address public owner;
-  
+
   struct Order {
     string id;
     address owner;
@@ -24,35 +27,6 @@ contract RentLib {
     uint rentPeriod;
     Status status;
   }
-
-  event Ordered(
-    uint256 _index, 
-    string _id,
-    address _owner,
-    string _name,
-    uint256 _value
-  );
-
-  event Rented(
-    uint256 _index,
-    string _id,
-    address _owner,
-    address _customer,
-    uint _period,
-    uint256 _value
-  );
-
-  event Canceled(
-    uint256 _index,
-    string _id,
-    address _owner,
-    string _name,
-    uint256 _value 
-  );
-
-  event Some(
-      address _address
-  );
 
   function init()
     onlyUninitialized
@@ -142,14 +116,6 @@ contract RentLib {
     itemsToRent[_index] = order;
     Canceled(_index, order.id, order.owner, order.name, order.dailyValue);  
     return true;
-  }
-
-  function some()
-    public
-    returns(bool)
-  {
-      Some(address(0));
-      return true;
   }
 
 }
